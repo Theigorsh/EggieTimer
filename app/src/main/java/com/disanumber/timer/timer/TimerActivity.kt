@@ -12,10 +12,8 @@ import android.view.MenuItem
 import com.disanumber.timer.R
 import com.disanumber.timer.SettingsActivity
 import com.disanumber.timer.broadcast.TimerExpiredReceiver
-import com.disanumber.timer.model.Timer
 import com.disanumber.timer.util.NotificationUtil
 import com.disanumber.timer.util.PrefUtil
-
 import kotlinx.android.synthetic.main.activity_timer.*
 import kotlinx.android.synthetic.main.content_timer.*
 import java.util.*
@@ -66,7 +64,7 @@ class TimerActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setIcon(R.drawable.ic_timer)//getSupportActionBar.setIcon check null by ?
         supportActionBar?.title = "       Timer"
-
+        //TODO: INTENT WITH PARAMS
         fab_start.setOnClickListener({
             startTimer()
             timerState = TimerState.Running
@@ -79,7 +77,7 @@ class TimerActivity : AppCompatActivity() {
             updateButtons()
         }
         )
-
+        //TODO: Solve problem with lateinit
         fab_stop.setOnClickListener({
             try {
                 timer.cancel()
@@ -171,14 +169,14 @@ class TimerActivity : AppCompatActivity() {
         val lengthInMinutes = PrefUtil.getTimerLength(this)//get timerlength in minutes
         timerLengthSeconds = (lengthInMinutes * 60L)
         timerMax = PrefUtil.getTimerLength(this).toLong() * 60
-        progress_countdown.max = timerLengthSeconds.toInt()//sen max of progress
+        progress_countdown.max = timerLengthSeconds.toInt()//set max of progress
 
 
     }
 
     private fun setPreviousTimerLength() {
         timerLengthSeconds = PrefUtil.getPreviousTimerLenghtSeconds(this)
-        progress_countdown.max = timerLengthSeconds.toInt()//sen max of progress
+        progress_countdown.max = timerLengthSeconds.toInt()//set max of progress
 
     }
 
