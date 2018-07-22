@@ -4,7 +4,6 @@
 
     <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
         android:defaultValue="10"
-        android:key="com.disanumber.timer.timer_length"
         android:summary="For how many minutes should the timer run?"
         android:title="Timer Length"
         app:msbp_dialogEnabled="true"

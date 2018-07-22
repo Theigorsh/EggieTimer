@@ -1,5 +1,6 @@
 package com.disanumber.timer.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.design.widget.TabLayout
@@ -42,10 +43,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
     }
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
 
-       }
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.nav_timer -> goToTimerActivity()
+        }
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
@@ -53,5 +55,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) drawer_layout.closeDrawer(GravityCompat.START)
         else super.onBackPressed()
+    }
+
+    private fun goToTimerActivity() {
+        val intent = Intent(this, TimerActivity::class.java)
+        startActivity(intent)
     }
 }

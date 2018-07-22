@@ -22,14 +22,16 @@
 
             <ImageView
                 android:id="@+id/timer_image"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
 
+                android:layout_marginBottom="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@mipmap/ic_launcher" />
+                app:srcCompat="@drawable/soup" />
 
             <TextView
                 android:id="@+id/timer_title"
@@ -37,21 +39,25 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
+                android:textColor="@color/colorText"
                 android:layout_marginTop="8dp"
                 android:text="Timer Name"
+                android:textSize="18sp"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/timer_image"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/timer_"
+                android:id="@+id/time_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="Timer Description"
+                android:textColor="@color/colorText"
+                android:text="00:00:00"
+                android:textSize="16sp"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="@+id/seek_bar"
                 app:layout_constraintStart_toEndOf="@+id/timer_image"

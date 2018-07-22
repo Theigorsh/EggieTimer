@@ -1,7 +1,10 @@
 package com.disanumber.timer.util
 
 import android.annotation.TargetApi
-import android.app.*
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.TaskStackBuilder
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -10,7 +13,7 @@ import android.net.Uri
 import android.os.Build
 import android.support.v4.app.NotificationCompat
 import com.disanumber.timer.R
-import com.disanumber.timer.timer.TimerActivity
+import com.disanumber.timer.activities.TimerActivity
 import com.disanumber.timer.broadcast.TimerNotificationActionReceiver
 import java.text.SimpleDateFormat
 import java.util.*

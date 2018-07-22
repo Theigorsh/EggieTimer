@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn = "navigation_view">
-    <group android:checkableBehavior="single">
+    <group>
         <item
-            android:id="@+id/nav_categories"
+            android:id="@+id/nav_timer"
             android:icon="@drawable/ic_timer_black_24dp"
-            android:title="Categories" />
+            android:title="@string/timer" />
     </group>
 </menu>

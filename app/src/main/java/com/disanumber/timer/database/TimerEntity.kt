@@ -11,9 +11,9 @@ class TimerEntity {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
     var name: String? = null
-    var description: String? = null
-    var image: String? = null
+    var image: Int? = null
     var length: Int? = null
+    var step: Int? = null
     var min: Int? = null
     var max: Int? = null
     var type: Int? = null
@@ -22,24 +22,22 @@ class TimerEntity {
     constructor() {
     }
 
-
-    constructor(name: String?, description: String?, image: String?, length: Int?, min: Int?, max: Int?, type: Int?) {
+    constructor(id: Int, name: String?, image: Int?, length: Int?, step: Int?, min: Int?, max: Int?, type: Int?) {
+        this.id = id
         this.name = name
-        this.description = description
         this.image = image
         this.length = length
+        this.step = step
         this.min = min
         this.max = max
         this.type = type
     }
-
     @Ignore
-    constructor(id: Int, name: String?, description: String?, image: String?, length: Int?, min: Int?, max: Int?, type: Int?) {
-        this.id = id
+    constructor(name: String?, image: Int?, length: Int?, step: Int?, min: Int?, max: Int?, type: Int?) {
         this.name = name
-        this.description = description
         this.image = image
         this.length = length
+        this.step = step
         this.min = min
         this.max = max
         this.type = type

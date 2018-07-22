@@ -2,18 +2,45 @@ package com.disanumber.timer.util
 
 import android.content.Context
 import android.preference.PreferenceManager
-import com.disanumber.timer.timer.TimerActivity
+import com.disanumber.timer.activities.TimerActivity
 
 class PrefUtil {
 
     companion object {
 
-        private const val TIMER_LENGTH_ID = "com.disanumber.timer.timer_length"//key for preference seekbar
+
+        private const val TIMER_DATA_ID = "com.disanumber.timer.timer_data"
+
+        fun getData(context: Context): Boolean {//all timer length doesn't change running timer if we change minutes
+            val preferences = PreferenceManager.getDefaultSharedPreferences(context)//get preferences by context
+            return preferences.getBoolean(TIMER_DATA_ID, false)
+        }
+        //func to set new Timer
+        fun setDataAdded(context: Context) {
+            val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
+            editor.putBoolean(TIMER_DATA_ID, true)
+            editor.apply()
+        }
+
+
+
+        private const val TIMER_LENGTH_ID = "com.disanumber.timer.timer_length"
+        private const val TIMER_TITLE_ID = "com.disanumber.timer.timer_title"
+        private const val TIMER_IMAGE_ID = "com.disanumber.timer.timer_image"//key for preference seekbar
         //LIKE STATIC MEMBERS IN JAVA
+
         fun getTimerLength(context: Context): Int {//all timer length doesn't change running timer if we change minutes
             val preferences = PreferenceManager.getDefaultSharedPreferences(context)//get preferences by context
             return preferences.getInt(TIMER_LENGTH_ID, 10)
          }
+        //func to set new Timer
+        fun setTimerLength(context: Context, length: Int, title: String, image: Int ) {
+            val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
+            editor.putInt(TIMER_LENGTH_ID, length)
+            editor.putString(TIMER_TITLE_ID, title)
+            editor.putInt(TIMER_IMAGE_ID, image)
+            editor.apply()
+        }
 
         private const val PREVIOUS_TIMER_LENGTH_SECONDS_ID = "com.disanumber.timer.previous_timer_length"
 

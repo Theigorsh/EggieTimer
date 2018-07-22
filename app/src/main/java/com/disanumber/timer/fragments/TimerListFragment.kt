@@ -13,6 +13,7 @@ import com.disanumber.timer.R
 import com.disanumber.timer.adapter.TimerAdapter
 import com.disanumber.timer.database.TimerEntity
 import com.disanumber.timer.util.Constants
+import com.disanumber.timer.util.PrefUtil
 import com.disanumber.timer.viewmodel.ViewModel
 
 
@@ -31,7 +32,10 @@ class TimerListFragment() : Fragment() {
         recyclerView = rootView.findViewById(R.id.sport_recycler_view) as RecyclerView
         initRecyclerView()
         initViewModel()
-        addSampleData()
+        if(!PrefUtil.getData(context!!)){
+            addSampleData()
+            PrefUtil.setDataAdded(context!!)
+        }
 
 
         return rootView

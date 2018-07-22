@@ -5,4 +5,37 @@
     <string name="nav_drawer_open">Open navigation drawer</string>
     <string name="nav_drawer_close">Close navigation drawer</string>
 
+    //Timer data Food strings
+    <string name="eggs">Eggs</string>
+    <string name="meat">Meat</string>
+    <string name="fish">Fish</string>
+    <string name="soup">Soup</string>
+    <string name="cereals">Cereals</string>
+    <string name="bake">Bake</string>
+    <string name="toasts">Toasts</string>
+    <string name="vegetables">Vegetables</string>
+
+
+    //Timer data Sport Strings
+    <string name="stretching">Stretching</string>
+    <string name="running">Running</string>
+    <string name="jumping">Jumping</string>
+    <string name="step_aerobics">Step aerobics</string>
+    <string name="warm_up">Warm-up</string>
+    <string name="abs_workout">Abs workout</string>
+    <string name="plank">Plank</string>
+    <string name="swimming">Swimming</string>
+
+    //Timer data Health Strings
+    <string name="sleeping">Sleeping</string>
+    <string name="inhalation">Inhalation</string>
+    <string name="computer">Computer</string>
+    <string name="walking">Walking</string>
+    <string name="cleaning">Cleaning</string>
+    <string name="reading">Reading</string>
+    <string name="watching_tv">Watching TV</string>
+    <string name="face_mask">Face mask</string>
+    <string name="timer">Timer</string>
+
+
 </resources>

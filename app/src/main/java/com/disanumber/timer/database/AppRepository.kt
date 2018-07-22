@@ -2,7 +2,7 @@ package com.disanumber.timer.database
 
 import android.arch.lifecycle.LiveData
 import android.content.Context
-import com.disanumber.timer.model.TimerDataUtil
+import com.disanumber.timer.util.TimerDataUtil
 import java.util.concurrent.Executors
 
 
