@@ -71,7 +71,7 @@ class TimerAdapter(private val timers: List<TimerEntity>, private val context: C
             })
 
             timerImage.setOnClickListener({
-                PrefUtil.setTimerLength(context, displayValue, timer.name!!, timer.image!!)
+                PrefUtil.setTimerLength(context, displayValue, TimerDataUtil.getStringResourceByName(timer.name!!, context), timer.image!!)
                 val intent = Intent(context, TimerActivity::class.java)
                 context.startActivity(intent)
             })

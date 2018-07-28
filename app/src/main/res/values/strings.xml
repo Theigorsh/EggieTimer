@@ -35,7 +35,9 @@
     <string name="reading">Reading</string>
     <string name="watching_tv">Watching TV</string>
     <string name="face_mask">Face mask</string>
-    <string name="timer">Timer</string>
 
+    //Nav Menu
+    <string name="timer">Timer</string>
+    <string name="log_out">Log out</string>
 
 </resources>

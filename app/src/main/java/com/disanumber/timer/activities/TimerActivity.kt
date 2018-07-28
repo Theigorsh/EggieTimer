@@ -97,9 +97,9 @@ class TimerActivity : AppCompatActivity() {
         if (timerState == TimerState.Running) {
             timer!!.cancel()
             val wakeUpTime = setAlarm(this, nowSeconds, secondsRemaining)
-            NotificationUtil.showTimerRunning(this, wakeUpTime)
+            NotificationUtil.showTimerRunning(this, wakeUpTime, PrefUtil.getPrevTimerTitle(applicationContext))
         } else if (timerState == TimerState.Paused) {
-            NotificationUtil.showTimerPaused(this)
+            NotificationUtil.showTimerPaused(this, PrefUtil.getPrevTimerTitle(applicationContext))
         }
         PrefUtil.setPreviousTimerLengthSeconds(timerLengthSeconds, this)//save current time length
         PrefUtil.setSecondsRemaining(secondsRemaining, this)//save seconds remaining
@@ -109,10 +109,13 @@ class TimerActivity : AppCompatActivity() {
 
     private fun initTimer() {
         timerState = PrefUtil.getTimerState(this)//get timerstate
+
         if (timerState == TimerState.Stopped) {
             setNewTimerLength()
+
         } else {
             setPreviousTimerLength()
+            txt_view_title.text = PrefUtil.getPrevTimerTitle(applicationContext)
         }
 
         secondsRemaining = if (timerState == TimerState.Running || timerState == TimerState.Paused)
@@ -160,7 +163,10 @@ class TimerActivity : AppCompatActivity() {
     }
 
     private fun setNewTimerLength() {
+        txt_view_title.text = PrefUtil.getTimerTitle(applicationContext)
+
         val lengthInMinutes = PrefUtil.getTimerLength(this)//get timerlength in minutes
+        PrefUtil.setPrevTimerTitle(applicationContext, PrefUtil.getTimerTitle(applicationContext))
         timerLengthSeconds = (lengthInMinutes * 60L)
         timerMax = PrefUtil.getTimerLength(this).toLong() * 60
         progress_countdown.max = timerLengthSeconds.toInt()//set max of progress

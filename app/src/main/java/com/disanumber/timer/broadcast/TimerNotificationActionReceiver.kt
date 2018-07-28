@@ -25,13 +25,13 @@ class TimerNotificationActionReceiver : BroadcastReceiver() {
                 PrefUtil.setSecondsRemaining(secondsRemaining,context)
                 TimerActivity.removeAlarm(context)
                 PrefUtil.setTimerState(TimerActivity.TimerState.Paused, context)
-                NotificationUtil.showTimerPaused(context)
+                NotificationUtil.showTimerPaused(context,PrefUtil.getPrevTimerTitle(context) )
             }
             Constants.ACTION_RESUME -> {
                 val secondsRemaining = PrefUtil.getSecondsRemaining(context)
                 val wakeUpTime = TimerActivity.setAlarm(context, TimerActivity.nowSeconds, secondsRemaining)
                 PrefUtil.setTimerState(TimerActivity.TimerState.Running, context)
-                NotificationUtil.showTimerRunning(context, wakeUpTime)
+                NotificationUtil.showTimerRunning(context, wakeUpTime, PrefUtil.getPrevTimerTitle(context))
             }
             Constants.ACTION_START ->{
                 val minutesRemaining = PrefUtil.getTimerLength(context)
@@ -39,7 +39,7 @@ class TimerNotificationActionReceiver : BroadcastReceiver() {
                 val wakeUpTime = TimerActivity.setAlarm(context, TimerActivity.nowSeconds, secondsRemaining)
                 PrefUtil.setTimerState(TimerActivity.TimerState.Running, context)
                 PrefUtil.setSecondsRemaining(secondsRemaining, context)
-                NotificationUtil.showTimerRunning(context, wakeUpTime)
+                NotificationUtil.showTimerRunning(context, wakeUpTime, PrefUtil.getPrevTimerTitle(context))
             }
         }
     }

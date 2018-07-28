@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "274100753430",
+    "firebase_url": "https://eggietimer.firebaseio.com",
+    "project_id": "eggietimer",
+    "storage_bucket": "eggietimer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:274100753430:android:d14eb038e703b85b",
+        "android_client_info": {
+          "package_name": "com.disanumber.timer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "274100753430-b9g8mp1k1al22o07sn2a1r1j2g6t6vgk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZHIOS58iLOPiUsUVwVpJSeznnoTne3WU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

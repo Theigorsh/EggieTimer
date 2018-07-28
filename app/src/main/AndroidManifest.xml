@@ -6,16 +6,14 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_timer"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/ic_timer"
         android:largeHeap="true"
+        android:roundIcon="@drawable/ic_timer"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.TimerActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <receiver
             android:name=".broadcast.TimerExpiredReceiver"
@@ -36,14 +34,18 @@
         <activity
             android:name=".SettingsActivity"
             android:parentActivityName=".activities.TimerActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".activities.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar.Nav">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".activities.LogRegActivity">
+
         </activity>
     </application>
 

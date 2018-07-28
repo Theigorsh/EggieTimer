@@ -8,14 +8,14 @@ class PrefUtil {
 
     companion object {
 
-
+        //Check if data added to db or not
         private const val TIMER_DATA_ID = "com.disanumber.timer.timer_data"
 
         fun getData(context: Context): Boolean {//all timer length doesn't change running timer if we change minutes
             val preferences = PreferenceManager.getDefaultSharedPreferences(context)//get preferences by context
             return preferences.getBoolean(TIMER_DATA_ID, false)
         }
-        //func to set new Timer
+
         fun setDataAdded(context: Context) {
             val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
             editor.putBoolean(TIMER_DATA_ID, true)
@@ -31,8 +31,24 @@ class PrefUtil {
 
         fun getTimerLength(context: Context): Int {//all timer length doesn't change running timer if we change minutes
             val preferences = PreferenceManager.getDefaultSharedPreferences(context)//get preferences by context
-            return preferences.getInt(TIMER_LENGTH_ID, 10)
+            return preferences.getInt(TIMER_LENGTH_ID, 0)
          }
+        fun getTimerTitle(context: Context): String {//all timer length doesn't change running timer if we change minutes
+            val preferences = PreferenceManager.getDefaultSharedPreferences(context)//get preferences by context
+            return preferences.getString(TIMER_TITLE_ID, "Choose timer to use")
+        }
+        private const val TIMER_PREV_TITLE_ID = "com.disanumber.timer.timer_notif_title"
+
+        fun setPrevTimerTitle(context: Context, title: String) {//all timer length doesn't change running timer if we change minutes
+            val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
+            editor.putString(TIMER_PREV_TITLE_ID, title)
+            editor.apply()
+        }
+        fun getPrevTimerTitle(context: Context): String {//all timer length doesn't change running timer if we change minutes
+            val preferences = PreferenceManager.getDefaultSharedPreferences(context)//get preferences by context
+            return preferences.getString(TIMER_PREV_TITLE_ID, "Choose timer to use")
+        }
+
         //func to set new Timer
         fun setTimerLength(context: Context, length: Int, title: String, image: Int ) {
             val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
