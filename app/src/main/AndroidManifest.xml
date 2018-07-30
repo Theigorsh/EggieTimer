@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activities.TimerActivity"
+            android:name=".ui.activities.TimerActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
@@ -33,10 +33,10 @@
 
         <activity
             android:name=".SettingsActivity"
-            android:parentActivityName=".activities.TimerActivity"
+            android:parentActivityName=".ui.activities.TimerActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar.Nav">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,7 +44,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.LogRegActivity">
+        <activity android:name=".ui.activities.LogRegActivity">
 
         </activity>
     </application>

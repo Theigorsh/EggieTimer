@@ -13,8 +13,8 @@ import android.net.Uri
 import android.os.Build
 import android.support.v4.app.NotificationCompat
 import com.disanumber.timer.R
-import com.disanumber.timer.activities.TimerActivity
 import com.disanumber.timer.broadcast.TimerNotificationActionReceiver
+import com.disanumber.timer.ui.activities.TimerActivity
 import java.text.SimpleDateFormat
 import java.util.*
 

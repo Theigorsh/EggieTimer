@@ -1,4 +1,4 @@
-package com.disanumber.timer.activities
+package com.disanumber.timer.ui.activities
 
 import android.app.AlarmManager
 import android.app.PendingIntent

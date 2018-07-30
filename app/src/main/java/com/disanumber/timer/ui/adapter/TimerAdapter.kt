@@ -1,4 +1,4 @@
-package com.disanumber.timer.adapter
+package com.disanumber.timer.ui.adapter
 
 import android.content.Context
 import android.content.Intent
@@ -11,8 +11,8 @@ import android.widget.SeekBar
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.disanumber.timer.R
-import com.disanumber.timer.activities.TimerActivity
 import com.disanumber.timer.database.TimerEntity
+import com.disanumber.timer.ui.activities.TimerActivity
 import com.disanumber.timer.util.PrefUtil
 import com.disanumber.timer.util.TimerDataUtil
 

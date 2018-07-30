@@ -1,4 +1,4 @@
-package com.disanumber.timer.fragments
+package com.disanumber.timer.ui.fragments
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -10,8 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.disanumber.timer.R
-import com.disanumber.timer.adapter.TimerAdapter
 import com.disanumber.timer.database.TimerEntity
+import com.disanumber.timer.ui.adapter.TimerAdapter
 import com.disanumber.timer.util.Constants
 import com.disanumber.timer.util.PrefUtil
 import com.disanumber.timer.viewmodel.ViewModel
@@ -32,6 +32,9 @@ class TimerListFragment() : Fragment() {
         recyclerView = rootView.findViewById(R.id.sport_recycler_view) as RecyclerView
         initRecyclerView()
         initViewModel()
+        if(PrefUtil.getVersion(context!!)){
+
+        }
         if(!PrefUtil.getData(context!!)){
             addSampleData()
             PrefUtil.setDataAdded(context!!)
@@ -89,7 +92,7 @@ class TimerListFragment() : Fragment() {
     }
 
     companion object {
-        fun newInstance(type: Int): TimerListFragment{
+        fun newInstance(type: Int): TimerListFragment {
             val fragment = TimerListFragment()
             val args = Bundle()
             args.putInt(Constants.ARG_FRAGMENT, type)

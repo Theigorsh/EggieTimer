@@ -1,9 +1,9 @@
-package com.disanumber.timer.activities
+package com.disanumber.timer.ui.activities
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.disanumber.timer.R
-import com.disanumber.timer.fragments.LoginFragment
+import com.disanumber.timer.ui.fragments.LoginFragment
 
 class LogRegActivity : AppCompatActivity() {
 
@@ -18,5 +18,6 @@ class LogRegActivity : AppCompatActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.add(R.id.log_reg_container, LoginFragment())
         transaction.commit()
+
     }
 }

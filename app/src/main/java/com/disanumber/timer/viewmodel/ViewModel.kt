@@ -21,4 +21,7 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
         mRepository.addSampleData()
 
     }
+    fun addPremiumData(){
+        //TODO: add premium data
+    }
 }

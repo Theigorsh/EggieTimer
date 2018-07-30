@@ -1,9 +1,9 @@
-package com.disanumber.timer.adapter
+package com.disanumber.timer.ui.adapter
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import com.disanumber.timer.fragments.TimerListFragment
+import com.disanumber.timer.ui.fragments.TimerListFragment
 
 
 class ViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager) {

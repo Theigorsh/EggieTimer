@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.LogRegActivity">
+    tools:context=".ui.activities.LogRegActivity">
 <FrameLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"

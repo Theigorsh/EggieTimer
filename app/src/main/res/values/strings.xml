@@ -40,4 +40,12 @@
     <string name="timer">Timer</string>
     <string name="log_out">Log out</string>
 
+    //Toasts messages
+    <string name="fields_must_filled">Fields must be filled</string>
+    <string name="cannot_sign_in">Cannot Sign in. Please check the form and try again.</string>
+    <string name="passwords_dont_match">passwords_dont_match</string>
+
+    //DB res
+    <string name="version_free">free</string>
+
 </resources>
