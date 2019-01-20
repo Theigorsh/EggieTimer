@@ -7,9 +7,11 @@
             android:id="@+id/nav_timer"
             android:icon="@drawable/ic_timer_black_24dp"
             android:title="@string/timer" />
+
         <item
-            android:id="@+id/nav_log_out"
-            android:icon="@drawable/ic_log_out"
-            android:title="@string/log_out" />
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_settings"
+            android:title="@string/menu_settings"/>
+
     </group>
 </menu>

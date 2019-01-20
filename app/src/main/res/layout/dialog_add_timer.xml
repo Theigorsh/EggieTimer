@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/input_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+
+        android:backgroundTint="@color/colorAccent"
+        android:fontFamily="@font/roboto_light"
+        android:hint="@string/title"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_image_timer" />
+
+    <TextView
+        android:id="@+id/tv_hours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/roboto_light"
+        android:text="@string/hours"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/colorText"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/number_picker_hours"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/number_picker_hours" />
+
+    <TextView
+        android:id="@+id/tv_minutes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/roboto_light"
+        android:text="@string/minutes"
+        android:textAlignment="center"
+        android:textColor="@color/colorText"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/number_picker_minutes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/number_picker_minutes" />
+
+    <com.shawnlin.numberpicker.NumberPicker
+        android:id="@+id/number_picker_hours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toEndOf="@+id/tv_hours"
+        app:layout_constraintTop_toBottomOf="@+id/input_title"
+        app:np_dividerColor="@color/colorPrimary"
+        app:np_selectedTextColor="@color/colorPrimary" />
+
+    <com.shawnlin.numberpicker.NumberPicker
+        android:id="@+id/number_picker_minutes"
+        android:layout_width="62dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_minutes"
+        app:layout_constraintTop_toBottomOf="@+id/input_title"
+        app:np_dividerColor="@color/colorAccent"
+        app:np_selectedTextColor="@color/colorAccent" />
+
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorPrimary"
+        android:fontFamily="@font/roboto_light"
+        android:text="@string/add"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/number_picker_hours" />
+
+    <ImageView
+        android:id="@+id/add_image_timer"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_categories"
+        app:srcCompat="@drawable/soup" />
+
+    <ImageView
+        android:id="@+id/add_left_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/add_image_timer"
+        app:layout_constraintEnd_toStartOf="@+id/add_image_timer"
+        app:layout_constraintTop_toTopOf="@+id/add_image_timer"
+        app:srcCompat="@drawable/ic_arrow_left" />
+
+    <ImageView
+        android:id="@+id/add_rigth_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/add_image_timer"
+        app:layout_constraintStart_toEndOf="@+id/add_image_timer"
+        app:layout_constraintTop_toTopOf="@+id/add_image_timer"
+        app:srcCompat="@drawable/ic_arrow_rigth" />
+
+    <TextView
+        android:id="@+id/spinner_categories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/roboto_light"
+        android:textSize="30sp"
+        android:text="@string/txtview_your_timer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/btn_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_close_red" />
+
+</android.support.constraint.ConstraintLayout>

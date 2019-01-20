@@ -1,23 +1,25 @@
 package com.disanumber.timer.ui.adapter
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.SeekBar
-import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.disanumber.timer.R
-import com.disanumber.timer.database.TimerEntity
+import com.disanumber.timer.model.TimerEntity
 import com.disanumber.timer.ui.activities.TimerActivity
+import com.disanumber.timer.ui.viewmodel.ViewModel
 import com.disanumber.timer.util.PrefUtil
 import com.disanumber.timer.util.TimerDataUtil
+import kotlinx.android.synthetic.main.timer_item.view.*
 
 
-class TimerAdapter(private val timers: List<TimerEntity>, private val context: Context) : RecyclerView.Adapter<TimerAdapter.ViewHolder>() {
+class TimerAdapter(private val timers: List<TimerEntity>, private val context: Context, private val viewModel: ViewModel) : RecyclerView.Adapter<TimerAdapter.ViewHolder>() {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -35,52 +37,117 @@ class TimerAdapter(private val timers: List<TimerEntity>, private val context: C
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val timerImage: ImageView = itemView.findViewById(R.id.timer_image)
-        private val timerTitle: TextView = itemView.findViewById(R.id.timer_title)
-        private val timerTimeText: TextView = itemView.findViewById(R.id.time_text)
 
-        private val timerSeekBar: SeekBar = itemView.findViewById(R.id.seek_bar)
+        private var timer: TimerEntity? = null
+        private var length: Int? = null
 
-        fun updateWithTimer(timer: TimerEntity) {
-            timerTitle.text = TimerDataUtil.getStringResourceByName(timer.name!!, context)
-            Glide.with(context).load(timer.image!!).into(timerImage)
-            timerSeekBar.max = 100
-            //Seek bur functional
-            var displayValue: Int = timer.length!!//value that will be displayed in textview
-            var hours: Int = timer.length!! / 60;
-            var minutes: String = (timer.length!! % 60).toString()
 
-            timerTimeText.text = "$hours:${if (minutes.length == 2) minutes
-            else "0" + minutes}:00"
+        fun updateWithTimer(timerEntity: TimerEntity) {
+            timer = timerEntity
+            initTitleAndImage()
+            initSeekBar()
+            if (timer!!.type == 3) {
+                initTimerMenuPersonal()
+            } else {
+                initTimerMenu()
+            }
+        }
 
-            timerSeekBar.progress = calculateProgress(timer.length!!, timer.min!!, timer.max!!)
-            //SeekBar listener
-            timerSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                override fun onStopTrackingTouch(seekBar: SeekBar) {}
 
-                override fun onStartTrackingTouch(seekBar: SeekBar) {}
+        private fun setTime(hours: Int, minutes: String): String {
+            return "$hours:${if (minutes.length == 2) minutes
+            else "0$minutes"}:00"
+        }
 
-                override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                    val value = Math.round((progress * (timer.max!! - timer.min!!) / 100).toFloat()).toDouble()
-                    displayValue = (value.toInt() + timer.min!!) / timer.step!! * timer.step!!
-                    hours = displayValue / 60
-                    minutes = (displayValue % 60).toString()
-                    timerTimeText.text = "$hours:${if (minutes.length == 2) minutes
-                    else "0" + minutes}:00"
+        private fun initTitleAndImage() {
+
+            try {
+                itemView.timer_title.text = TimerDataUtil.getStringResourceByName(timer!!.name!!, context)
+            } catch (e: Resources.NotFoundException) {
+                itemView.timer_title.text = timer!!.name!!
+            }
+            //Load image
+            Glide.with(context).load(TimerDataUtil.getDrawableByName(timer!!.image!!, context)).into(itemView.timer_image)
+
+            itemView.setOnClickListener {
+                try {
+                    PrefUtil.setTimerLength(context, length!!, TimerDataUtil.getStringResourceByName(timer!!.name!!, context), timer!!.image!!)
+                } catch (e: Resources.NotFoundException) {
+                    PrefUtil.setTimerLength(context, length!!, timer!!.name!!, timer!!.image!!)
                 }
-            })
-
-            timerImage.setOnClickListener({
-                PrefUtil.setTimerLength(context, displayValue, TimerDataUtil.getStringResourceByName(timer.name!!, context), timer.image!!)
                 val intent = Intent(context, TimerActivity::class.java)
+                intent.putExtra("from_list", true)
                 context.startActivity(intent)
-            })
-
+            }
 
         }
 
-        private fun calculateProgress(value: Int, MIN: Int, MAX: Int): Int {
-            return 100 * (value - MIN) / (MAX - MIN)
+        private fun initSeekBar() {
+            length = timer!!.length!!
+            var hours: Int = timer!!.length!! / 60
+            var minutes: String = (timer!!.length!! % 60).toString()
+            itemView.time_text.text = setTime(hours, minutes)
+            itemView.seek_bar.visibility = View.INVISIBLE
+            if (timer!!.min!!.toInt() != 0) {
+
+                itemView.seek_bar.visibility = View.VISIBLE
+                itemView.seek_bar.maxValue = timer!!.max!!.toFloat()
+                itemView.seek_bar.minValue = timer!!.min!!.toFloat()
+                itemView.seek_bar.steps = timer!!.step!!.toFloat()
+                itemView.seek_bar.setMinStartValue(timer!!.length!!.toFloat()).apply()
+
+                itemView.seek_bar.setOnSeekbarChangeListener { value ->
+                    length = value!!.toInt()
+                    hours = length!! / 60
+                    minutes = (length!! % 60).toString()
+                    itemView.time_text.text = setTime(hours, minutes)
+                }
+            }
+
+        }
+
+        private fun initTimerMenu() {
+            itemView.item_menu.setOnClickListener {
+
+                val options = arrayOf<CharSequence>(context.getString(R.string.save_time))
+
+                val builder = AlertDialog.Builder(context)
+
+                builder.setItems(options) { dialogInterface, i ->
+                    if (i == 0) {
+                        val title = timer!!.name!!
+                        val image = timer!!.image!!
+                        val length = length
+                        val min = timer!!.min!!
+                        val max = timer!!.max!!
+                        val type = timer!!.type!!
+                        val step = timer!!.step!!
+                        val timerEntity = TimerEntity(timer!!.id, title, image, length, step, min, max, type)
+                        viewModel.update(timerEntity)
+                    }
+                }
+
+                builder.show()
+            }
+        }
+
+        private fun initTimerMenuPersonal() {
+            itemView.item_menu.setOnClickListener {
+
+                val options = arrayOf<CharSequence>(context.getString(R.string.delete_timer))
+
+                val builder = AlertDialog.Builder(context)
+
+                builder.setItems(options) { _, i ->
+                    if (i == 0) {
+                        val id = timer!!.id
+                        viewModel.deleteTimer(id)
+                    }
+                }
+
+                builder.show()
+            }
         }
     }
+
 }

@@ -35,7 +35,7 @@ class TimerNotificationActionReceiver : BroadcastReceiver() {
             }
             Constants.ACTION_START ->{
                 val minutesRemaining = PrefUtil.getTimerLength(context)
-                val secondsRemaining = minutesRemaining *60L
+                val secondsRemaining = minutesRemaining * 60L
                 val wakeUpTime = TimerActivity.setAlarm(context, TimerActivity.nowSeconds, secondsRemaining)
                 PrefUtil.setTimerState(TimerActivity.TimerState.Running, context)
                 PrefUtil.setSecondsRemaining(secondsRemaining, context)

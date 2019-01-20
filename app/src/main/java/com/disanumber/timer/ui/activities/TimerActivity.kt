@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.disanumber.timer.R
@@ -15,6 +16,7 @@ import com.disanumber.timer.util.PrefUtil
 import kotlinx.android.synthetic.main.activity_timer.*
 import kotlinx.android.synthetic.main.content_timer.*
 import java.util.*
+
 
 class TimerActivity : AppCompatActivity() {
 
@@ -53,40 +55,41 @@ class TimerActivity : AppCompatActivity() {
     private var timerState = TimerState.Stopped//timerState by default stopped
     private var secondsRemaining = 0L
     private var timerMax = 0L
+    private var fromList: Boolean? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timer)
-
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "Timer"
+        supportActionBar?.title = getString(R.string.timer)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        fab_start.setOnClickListener({
+
+        fab_start.setOnClickListener {
             startTimer()
             timerState = TimerState.Running
             updateButtons()
         }
-        )
-        fab_pause.setOnClickListener({
+
+        fab_pause.setOnClickListener {
             timer!!.cancel()
             timerState = TimerState.Paused
             updateButtons()
         }
-        )
-        fab_stop.setOnClickListener({
+
+        fab_stop.setOnClickListener {
             if (timer != null) {
                 timer!!.cancel()
             }
-            onTimerFinished()
+            onTimerFinished(false)
         }
-        )
 
 
     }
 
     override fun onResume() {
         super.onResume()
+        fromList = intent.getBooleanExtra("from_list", false)
         initTimer()
         removeAlarm(this)
         NotificationUtil.hideTimerNotification(this)
@@ -112,8 +115,11 @@ class TimerActivity : AppCompatActivity() {
 
         if (timerState == TimerState.Stopped) {
             setNewTimerLength()
-
         } else {
+            if (fromList!!) {
+                createAlertDialog()
+                intent.removeExtra("from_list")
+            }
             setPreviousTimerLength()
             txt_view_title.text = PrefUtil.getPrevTimerTitle(applicationContext)
         }
@@ -129,23 +135,33 @@ class TimerActivity : AppCompatActivity() {
             secondsRemaining -= nowSeconds - alarmSetTime//get secondsRemaining by minus now seconds and alarm set time
 
         if (secondsRemaining <= 0) {
-            onTimerFinished()
+            onTimerFinished(false)
         } else if (timerState == TimerState.Running)
             startTimer()
         updateButtons()
         updateCountDownUi()
+
+
     }
 
-    private fun onTimerFinished() {
+    private fun onTimerFinished(isSelfExpired:Boolean) {
         timerState = TimerState.Stopped
         setNewTimerLength()
         progress_countdown.progress = 0
+
         //if we stop timer we put in shared preferences full time
         PrefUtil.setSecondsRemaining(timerLengthSeconds, this)//set full time
         secondsRemaining = timerLengthSeconds
 
         updateButtons()
         updateCountDownUi()
+        if(isSelfExpired){
+            val intentExpired = Intent()
+            intentExpired.setClassName(packageName, TimerExpiredActivity::class.java.name)
+            intentExpired.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intentExpired)
+        }
+
     }
 
     private fun startTimer() {
@@ -153,7 +169,7 @@ class TimerActivity : AppCompatActivity() {
         //init variable timer with object of CountDownTimer, override in this object to fun, when finished and on Tick
         //when one time tick timer
         timer = object : CountDownTimer(secondsRemaining * 1000, 1000) {
-            override fun onFinish() = onTimerFinished()
+            override fun onFinish() = onTimerFinished(true)
 
             override fun onTick(millisUntilFinished: Long) {
                 secondsRemaining = millisUntilFinished / 1000
@@ -167,15 +183,17 @@ class TimerActivity : AppCompatActivity() {
 
         val lengthInMinutes = PrefUtil.getTimerLength(this)//get timerlength in minutes
         PrefUtil.setPrevTimerTitle(applicationContext, PrefUtil.getTimerTitle(applicationContext))
+        PrefUtil.setPrevTimerImage(applicationContext, PrefUtil.getTimerImage(applicationContext))
         timerLengthSeconds = (lengthInMinutes * 60L)
         timerMax = PrefUtil.getTimerLength(this).toLong() * 60
         progress_countdown.max = timerLengthSeconds.toInt()//set max of progress
 
 
+
     }
 
     private fun setPreviousTimerLength() {
-        timerLengthSeconds = PrefUtil.getPreviousTimerLenghtSeconds(this)
+        timerLengthSeconds = PrefUtil.getPreviousTimerLengthSeconds(this)
         progress_countdown.max = timerLengthSeconds.toInt()//set max of progress
 
     }
@@ -196,8 +214,8 @@ class TimerActivity : AppCompatActivity() {
             else "0" + secondsStr}"
         }
 
-
         progress_countdown.progress = (timerLengthSeconds - secondsRemaining).toInt()
+
     }
 
     private fun updateButtons() {
@@ -218,8 +236,28 @@ class TimerActivity : AppCompatActivity() {
                 fab_stop.isEnabled = false
             }
         }
+
     }
 
+    private fun createAlertDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage(getString(R.string.set_timer))
+                .setPositiveButton(getString(R.string.yes), { dialog, id ->
+                    if (timer != null) {
+                        timer!!.cancel()
+                    }
+                    onTimerFinished(false)
+                })
+                .setNegativeButton(getString(R.string.no), { dialog, id ->
+                    dialog.dismiss()
+                })
+                .setIcon(R.mipmap.ic_launcher)
+        // Create the AlertDialog object and return it
+
+        val alert: AlertDialog = builder.create()
+        alert.show()
+
+    }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         return when (item?.itemId) {

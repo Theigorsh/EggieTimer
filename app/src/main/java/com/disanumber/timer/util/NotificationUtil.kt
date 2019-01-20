@@ -26,21 +26,6 @@ class NotificationUtil {
         private const val TIMER_ID = 0
 
 
-        fun showTimerExpired(context: Context) {
-            val startIntent = Intent(context, TimerNotificationActionReceiver::class.java)
-            startIntent.action = Constants.ACTION_START
-            val startPendingIntent = PendingIntent.getBroadcast(context,//create pending intent
-                    0, startIntent, PendingIntent.FLAG_UPDATE_CURRENT)
-            val nBuilder = getBasicNotificationBuilder(context, CHANNNEL_ID_TIMER, true)
-            nBuilder.setContentTitle("Timer Expired!")
-                    .setContentText("Start again?")
-                    .setContentIntent(getPendingIntentWitStack(context, TimerActivity::class.java))
-                    .addAction(R.drawable.ic_start, "Start",startPendingIntent)
-            val nManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            nManager.createNotificationChannel(CHANNNEL_ID_TIMER, CHANNEL_NAME_TIMER, true)
-            nManager.notify(TIMER_ID, nBuilder.build())
-        }
-
         fun showTimerRunning(context: Context, wakeUpTime: Long, title: String){
             val stopIntent = Intent(context, TimerNotificationActionReceiver::class.java)//stopIntent
             stopIntent.action = Constants.ACTION_STOP
@@ -54,13 +39,13 @@ class NotificationUtil {
 
             val df = SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT)//dateformat current date
 
-            val nBuilder = getBasicNotificationBuilder(context, CHANNNEL_ID_TIMER, true)
-            nBuilder.setContentTitle("$title Timer is Running.")
-                    .setContentText("End: ${df.format(Date(wakeUpTime))}")
+            val nBuilder = getBasicNotificationBuilder(context, CHANNNEL_ID_TIMER, false)
+            nBuilder.setContentTitle(title)
+                    .setContentText("${context.getString(R.string.notif_timer_running)} ${df.format(Date(wakeUpTime))}")
                     .setContentIntent(getPendingIntentWitStack(context, TimerActivity::class.java))
                     .setOngoing(true)
-                    .addAction(R.drawable.ic_stop, "Stop", stopPendingIntent)
-                    .addAction(R.drawable.ic_pause, "Pause", pausePendingIntent)
+                    .addAction(R.drawable.ic_stop, context.getString(R.string.notif_stop), stopPendingIntent)
+                    .addAction(R.drawable.ic_pause, context.getString(R.string.notif_pause), pausePendingIntent)
 
             val nManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             nManager.createNotificationChannel(CHANNNEL_ID_TIMER, CHANNEL_NAME_TIMER, true)
@@ -74,11 +59,11 @@ class NotificationUtil {
                     0, resumeIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
             val nBuilder = getBasicNotificationBuilder(context, CHANNNEL_ID_TIMER, false)
-            nBuilder.setContentTitle("$title Timer is paused.")
-                    .setContentText("Resume?")
+            nBuilder.setContentTitle(title)
+                    .setContentText(context.getString(R.string.notif_timer_paused))
                     .setContentIntent(getPendingIntentWitStack(context, TimerActivity::class.java))
                     .setOngoing(true)
-                    .addAction(R.drawable.ic_start, "Resume", resumePendingIntent)
+                    .addAction(R.drawable.ic_start, context.getString(R.string.notif_resume), resumePendingIntent)
 
             val nManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             nManager.createNotificationChannel(CHANNNEL_ID_TIMER, CHANNEL_NAME_TIMER, false)
@@ -89,6 +74,7 @@ class NotificationUtil {
         private fun getBasicNotificationBuilder(context: Context, channnelID: String, playSound: Boolean)//func that return notification
                 : NotificationCompat.Builder {
             val notificationSound: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)//get sound of notif
+
             val nBuilder = NotificationCompat.Builder(context, channnelID)
                     .setSmallIcon(R.drawable.ic_timer)
                     .setAutoCancel(true)

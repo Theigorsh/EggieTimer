@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
 
-    <com.pavelsikun.seekbarpreference.SeekBarPreferenceCompat
-        android:defaultValue="10"
-        android:summary="For how many minutes should the timer run?"
-        android:title="Timer Length"
-        app:msbp_dialogEnabled="true"
-        app:msbp_interval="1"
-        app:msbp_maxValue="60"
-        app:msbp_measurementUnit="minutes"
-        app:msbp_minValue="1" />
+    android:divider="@color/colorAccent"
+    android:title="Eggie's Timer"
+    android:icon="@mipmap/ic_launcher">
 
-</android.support.v7.preference.PreferenceScreen>
+<RingtonePreference
+    android:defaultValue="true"
+    android:key="ringtone_sound"
+    android:ringtoneType="alarm"
+    android:showSilent="true"
+    android:showDefault="true"
+    android:title="@string/timer_sound"
+    android:summary="@string/choose_from_var"
+    android:enabled="true">
+</RingtonePreference>
+</PreferenceScreen>

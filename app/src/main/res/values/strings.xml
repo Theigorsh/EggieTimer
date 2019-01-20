@@ -1,9 +1,15 @@
 <resources>
-    <string name="app_name">Timer</string>
-    <string name="title_activity_timer">TimerActivity</string>
-    <string name="menu_settings">Settings</string>
-    <string name="nav_drawer_open">Open navigation drawer</string>
-    <string name="nav_drawer_close">Close navigation drawer</string>
+    <string name="app_name">Eggie\'s Timer</string>
+    <string name="license_key" translatable="false">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAplvlzfV1bxljQlg4M6zZRZ2c7R05eOV2TyBnz2gTjm+Sgm6N5IBboN7cbzlGtnjkG5kShv7KHWrDhqAiibuG92qk3P8NyWisNG0oVjK3+g6eq3J5n/O8FQbphQBot5/jzhu05wZY7tQU6ZIQ3CJtVCTbso49RAKpTQA+6ZwePybGIXVk4z7FDSfD8x+q2XCGlqzvZRxFuE6pE2wIUyAYl6cwZ0g7Qxqu+1TLLjUN3KWRMrnvadaz2Ot0WgMfgVGeTrVL/Bxh7OfDk6TRXo3t2PPbtjpGGR/bbHkrUiIM2gstpnqzN9PVJt/erLLmLQlAlXJK1UGgXdNXWJx7HAWIWwIDAQAB</string>
+    <string name="version_free" translatable="false">free</string>
+    <string name="nav_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="nav_drawer_close" translatable="false">Close navigation drawer</string>
+    <string name="deluxe_purchase_item" translatable="false">noads_version</string>
+    <string name="banner_id" translatable="false">ca-app-pub-7815385164675962/5272754975</string>
+    <string name="app_ads_id" translatable="false">ca-app-pub-7815385164675962~2841699618</string>
+    <string name="banner_fullscreen" translatable="false">ca-app-pub-7815385164675962/1852384718</string>
+
+
 
     //Timer data Food strings
     <string name="eggs">Eggs</string>
@@ -11,7 +17,7 @@
     <string name="fish">Fish</string>
     <string name="soup">Soup</string>
     <string name="cereals">Cereals</string>
-    <string name="bake">Bake</string>
+    <string name="bake">Baking</string>
     <string name="toasts">Toasts</string>
     <string name="vegetables">Vegetables</string>
 
@@ -38,14 +44,44 @@
 
     //Nav Menu
     <string name="timer">Timer</string>
-    <string name="log_out">Log out</string>
+    <string name="nav_deluxe_version">Deluxe Version</string>
+    <string name="menu_settings">Settings</string>
 
-    //Toasts messages
-    <string name="fields_must_filled">Fields must be filled</string>
-    <string name="cannot_sign_in">Cannot Sign in. Please check the form and try again.</string>
-    <string name="passwords_dont_match">passwords_dont_match</string>
 
-    //DB res
-    <string name="version_free">free</string>
+    <string name="toast_choose_timer">Please, choose timer to use</string>
+    //Layouts
+    <string name="txtview_your_timer">Your timer</string>
+    <string name="add_your_timer">Add your timer</string>
+    <string name="title_not_empty">Title can\'t be empty</string>
+    <string name="notif_timer_expired">Timer Expired!</string>
+    <string name="notif_start_again">Start again?</string>
+    <string name="notif_timer_running">Timer is running. End:</string>
+    <string name="notif_stop">Stop</string>
+    <string name="notif_pause">Pause</string>
+    <string name="notif_timer_paused">Timer is paused. Resume?</string>
+    <string name="notif_resume">Resume</string>
+    <string name="timer_expired">Timer Expired!</string>
+    <string name="cash">0.99$</string>
+    <string name="support_our_app">Support our app and very soon we will please you with new features</string>
+    <string name="turn_off_all_ads">Turn Off All Ads</string>
+    <string name="more_built_in_timers">More built-in timers</string>
+    <string name="add_your_timers_without_limits">Add your timers without limits</string>
+    <string name="delete_timer">Delete this timer</string>
+    <string name="save_time">Save selected time as default</string>
+    <string name="many_templates">Many different timer templates for your needs</string>
+    <string name="add_your_custom_timers">Add your custom timers</string>
+    <string name="timers_structured">Timers are structured by categories: Sport, Food, Health and Personal</string>
+    <string name="get_deluxe_version">Get Deluxe Version</string>
+    <string name="thank_you">Thank you for purchasing</string>
+    <string name="set_timer">Do you want to stop timer and set a new?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="title">Title</string>
+    <string name="hours">Hours</string>
+    <string name="minutes">Minutes</string>
+    <string name="timer_sound">Timer Expired Sound</string>
+    <string name="choose_from_var">Choose from variants</string>
+    <string name="add">Add</string>
+    <string name="start_again">Start again</string>
 
 </resources>

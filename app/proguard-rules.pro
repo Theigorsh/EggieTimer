@@ -4,7 +4,9 @@
 #
 # For more details, see
 #   http://developer.android.com/guide/developing/tools/proguard.html
-
+-keep class com.android.vending.billing.**
+-keepattributes *Annotation*
+-keep public class com.android.vending.licensing.ILicensingService
 # If your project uses WebView with JS, uncomment the following
 # and specify the fully qualified class name to the JavaScript interface
 # class:

@@ -6,24 +6,51 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="cardViewStyle">@style/CardView</item>
-
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="coordinatorLayoutStyle">@style/Widget.Design.CoordinatorLayout</item>
-        <item name="cardViewStyle">@style/CardView</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <item name="android:fontFamily">@font/roboto_light</item>
+        <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
     </style>
+
     <style name="AppTheme.NoActionBar.Nav">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="coordinatorLayoutStyle">@style/Widget.Design.CoordinatorLayout</item>
+        <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
     </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="RobotoText">
+        <item name="android:fontFamily">@font/roboto_light</item>
+    </style>
+
+    <style name="TabText" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/whiteTransparentHalf</item>
+    </style>
+
+    <style name="DialogActivityWithoutActionBar" parent="@style/Theme.AppCompat.Light.Dialog">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="SettingsTheme" parent="@style/PreferenceFixTheme.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <style name="AppTheme.Launcher">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
 
 </resources>
