@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:statusBarBackground="@color/colorPrimaryDark"
-    tools:context=".ui.activities.TimerActivity">
+    tools:context=".ui.timer.TimerActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

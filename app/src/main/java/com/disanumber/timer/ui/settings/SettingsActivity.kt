@@ -1,4 +1,4 @@
-package com.disanumber.timer.ui.activities
+package com.disanumber.timer.ui.settings
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity

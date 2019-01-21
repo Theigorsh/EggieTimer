@@ -1,50 +1,55 @@
-package com.disanumber.timer.ui.fragments
+package com.disanumber.timer.ui.main.timerlist
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.arellomobile.mvp.MvpAppCompatFragment
+import com.arellomobile.mvp.presenter.InjectPresenter
 import com.disanumber.timer.R
+import com.disanumber.timer.database.AppRepository
 import com.disanumber.timer.model.TimerEntity
-import com.disanumber.timer.ui.adapter.TimerAdapter
-import com.disanumber.timer.ui.viewmodel.ViewModel
+import com.disanumber.timer.ui.fragments.AddTimerDialog
 import com.disanumber.timer.util.Constants
 import com.disanumber.timer.util.PrefUtil
 import kotlinx.android.synthetic.main.fragment_timer_list.*
 
 
-class TimerListFragment : Fragment(), AddTimerDialog.OnAddedNewTimer {
+class TimerListFragment : MvpAppCompatFragment(), TimerListView, AddTimerDialog.OnAddedNewTimer {
 
 
-    private var recyclerView: RecyclerView? = null
-    private var type: Int? = null
+    private lateinit var recyclerView: RecyclerView
+    private var type: Int = 0
     private val timersData = ArrayList<TimerEntity>()
     private var adapter: TimerAdapter? = null
-    private var viewModel: ViewModel? = null
+
+    @InjectPresenter
+    lateinit var presenter: TimerListPresenter
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView: View = inflater.inflate(R.layout.fragment_timer_list, container, false)
-        type = this.arguments?.getInt(Constants.ARG_FRAGMENT)
+        type = this.arguments?.getInt(Constants.ARG_FRAGMENT)!!
         recyclerView = rootView.findViewById(R.id.sport_recycler_view) as RecyclerView
-        initRecyclerView()
-        initViewModel()
-        checkData()
+
+        presenter.setData(AppRepository.getInstance(context!!.applicationContext))
+
         return rootView
     }
 
+    override fun onDataLoaded() {
+        initRecyclerView()
+        initData()
+        checkData()
+    }
 
     private fun initRecyclerView() {
-        recyclerView!!.setHasFixedSize(true)
+        recyclerView.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(context)
-        recyclerView!!.layoutManager = layoutManager
-
-
+        recyclerView.layoutManager = layoutManager
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,65 +57,49 @@ class TimerListFragment : Fragment(), AddTimerDialog.OnAddedNewTimer {
 
         if (type == 3) {
             fab_add.visibility = View.VISIBLE
-
             fab_add.setOnClickListener {
-                    val dialog = AddTimerDialog()
-                    dialog.setTargetFragment(this, 0);
-                    dialog.show(fragmentManager, "ggg")
+                val dialog = AddTimerDialog()
+                dialog.setTargetFragment(this, 0)
+                dialog.show(fragmentManager, "ggg")
             }
         }
     }
 
-    private fun initViewModel() {
-
+    private fun initData() {
         val timersObserver: Observer<List<TimerEntity>> = Observer { timerEntities ->
             if (timerEntities != null) {
                 timersData.clear()
-
                 var i: Int = -1
                 for (timer: TimerEntity in timerEntities) {
                     i++
                     if (timer.type == type) timersData.add(timerEntities[i])
                 }
-
-
             }
             if (adapter == null) {
                 adapter = TimerAdapter(timersData,
-                        context!!, viewModel!!)
+                        context!!, presenter)
                 recyclerView!!.adapter = adapter
-
             } else {
                 adapter!!.notifyDataSetChanged()
             }
+
             if (timersData.size == 0) {
-                txt_view.visibility = View.VISIBLE
+                txt_add_timers.visibility = View.VISIBLE
 
             } else {
-                txt_view.visibility = View.INVISIBLE
-
+                txt_add_timers.visibility = View.INVISIBLE
             }
         }
-
-        viewModel = ViewModelProviders.of(this)
-                .get(ViewModel::class.java)
-        viewModel!!.timers!!.observe(this, timersObserver)
-
-
+        presenter.timers!!.observe(this, timersObserver)
     }
 
     private fun addData() {
-        viewModel!!.addData()
+        presenter.addData()
     }
 
 
     override fun addTimer(timer: TimerEntity) {
-
-        viewModel!!.addTimer(timer)
-
-
-
-
+        presenter.addTimer(timer)
     }
 
 

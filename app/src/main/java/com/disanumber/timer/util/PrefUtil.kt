@@ -2,7 +2,7 @@ package com.disanumber.timer.util
 
 import android.content.Context
 import android.preference.PreferenceManager
-import com.disanumber.timer.ui.activities.TimerActivity
+import com.disanumber.timer.ui.timer.TimerActivity
 
 class PrefUtil {
 

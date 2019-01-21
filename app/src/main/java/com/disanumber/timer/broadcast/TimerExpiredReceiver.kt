@@ -3,8 +3,8 @@ package com.disanumber.timer.broadcast
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.disanumber.timer.ui.activities.TimerActivity
 import com.disanumber.timer.ui.activities.TimerExpiredActivity
+import com.disanumber.timer.ui.timer.TimerActivity
 import com.disanumber.timer.util.NotificationUtil
 import com.disanumber.timer.util.PrefUtil
 

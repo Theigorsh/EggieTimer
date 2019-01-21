@@ -1,4 +1,4 @@
-package com.disanumber.timer.ui.activities
+package com.disanumber.timer.ui.timer
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.disanumber.timer.R
 import com.disanumber.timer.broadcast.TimerExpiredReceiver
+import com.disanumber.timer.ui.activities.TimerExpiredActivity
 import com.disanumber.timer.util.NotificationUtil
 import com.disanumber.timer.util.PrefUtil
 import kotlinx.android.synthetic.main.activity_timer.*

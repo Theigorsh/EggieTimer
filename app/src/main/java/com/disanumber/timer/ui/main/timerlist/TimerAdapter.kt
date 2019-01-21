@@ -1,4 +1,4 @@
-package com.disanumber.timer.ui.adapter
+package com.disanumber.timer.ui.main.timerlist
 
 import android.app.AlertDialog
 import android.content.Context
@@ -11,14 +11,13 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.disanumber.timer.R
 import com.disanumber.timer.model.TimerEntity
-import com.disanumber.timer.ui.activities.TimerActivity
-import com.disanumber.timer.ui.viewmodel.ViewModel
+import com.disanumber.timer.ui.timer.TimerActivity
 import com.disanumber.timer.util.PrefUtil
 import com.disanumber.timer.util.TimerDataUtil
 import kotlinx.android.synthetic.main.timer_item.view.*
 
 
-class TimerAdapter(private val timers: List<TimerEntity>, private val context: Context, private val viewModel: ViewModel) : RecyclerView.Adapter<TimerAdapter.ViewHolder>() {
+class TimerAdapter(private val timers: List<TimerEntity>, private val context: Context, private val presenter: TimerListPresenter) : RecyclerView.Adapter<TimerAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -87,16 +86,16 @@ class TimerAdapter(private val timers: List<TimerEntity>, private val context: C
             var hours: Int = timer!!.length!! / 60
             var minutes: String = (timer!!.length!! % 60).toString()
             itemView.time_text.text = setTime(hours, minutes)
-            itemView.seek_bar.visibility = View.INVISIBLE
+            itemView.time_seek_bar.visibility = View.INVISIBLE
             if (timer!!.min!!.toInt() != 0) {
 
-                itemView.seek_bar.visibility = View.VISIBLE
-                itemView.seek_bar.maxValue = timer!!.max!!.toFloat()
-                itemView.seek_bar.minValue = timer!!.min!!.toFloat()
-                itemView.seek_bar.steps = timer!!.step!!.toFloat()
-                itemView.seek_bar.setMinStartValue(timer!!.length!!.toFloat()).apply()
+                itemView.time_seek_bar.visibility = View.VISIBLE
+                itemView.time_seek_bar.maxValue = timer!!.max!!.toFloat()
+                itemView.time_seek_bar.minValue = timer!!.min!!.toFloat()
+                itemView.time_seek_bar.steps = timer!!.step!!.toFloat()
+                itemView.time_seek_bar.setMinStartValue(timer!!.length!!.toFloat()).apply()
 
-                itemView.seek_bar.setOnSeekbarChangeListener { value ->
+                itemView.time_seek_bar.setOnSeekbarChangeListener { value ->
                     length = value!!.toInt()
                     hours = length!! / 60
                     minutes = (length!! % 60).toString()
@@ -123,7 +122,7 @@ class TimerAdapter(private val timers: List<TimerEntity>, private val context: C
                         val type = timer!!.type!!
                         val step = timer!!.step!!
                         val timerEntity = TimerEntity(timer!!.id, title, image, length, step, min, max, type)
-                        viewModel.update(timerEntity)
+                        presenter.update(timerEntity)
                     }
                 }
 
@@ -141,7 +140,7 @@ class TimerAdapter(private val timers: List<TimerEntity>, private val context: C
                 builder.setItems(options) { _, i ->
                     if (i == 0) {
                         val id = timer!!.id
-                        viewModel.deleteTimer(id)
+                        presenter.deleteTimer(id)
                     }
                 }
 

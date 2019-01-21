@@ -6,7 +6,7 @@ import android.arch.persistence.room.RoomDatabase
 import android.content.Context
 import com.disanumber.timer.model.TimerEntity
 
-@Database(entities = arrayOf(TimerEntity::class), version = 3)
+@Database(entities = [TimerEntity::class], version = 3)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun timerDao(): TimersDao//u can't call fun directly

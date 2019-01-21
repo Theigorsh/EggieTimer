@@ -9,7 +9,7 @@ import java.util.concurrent.Executors
 
 class AppRepository private constructor(context: Context) {
 
-    var timers: LiveData<List<TimerEntity>>? = null
+    lateinit var timers: LiveData<List<TimerEntity>>
     private val mDb: AppDatabase = AppDatabase.getInstance(context)!!
     private val executor = Executors.newSingleThreadExecutor()
 
@@ -18,7 +18,6 @@ class AppRepository private constructor(context: Context) {
     }
 
     fun insertTimer(timer: TimerEntity) {
-
         executor.execute { mDb.timerDao().insertTimer(timer) }
     }
 

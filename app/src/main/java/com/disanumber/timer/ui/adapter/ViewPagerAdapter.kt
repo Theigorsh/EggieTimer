@@ -3,7 +3,7 @@ package com.disanumber.timer.ui.adapter
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import com.disanumber.timer.ui.fragments.TimerListFragment
+import com.disanumber.timer.ui.main.timerlist.TimerListFragment
 
 
 class ViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager) {
@@ -15,8 +15,6 @@ class ViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager)
             1 -> return TimerListFragment.newInstance(1)
             2 -> return TimerListFragment.newInstance(2)
             3 -> return TimerListFragment.newInstance(3)
-
-
         }
         return TimerListFragment.newInstance(0)
     }
@@ -27,7 +25,6 @@ class ViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager)
 
 
     override fun getPageTitle(position: Int): CharSequence? {
-        // return null to show no title.
         return null
 
     }

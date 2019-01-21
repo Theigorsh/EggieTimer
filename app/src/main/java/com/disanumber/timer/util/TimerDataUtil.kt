@@ -53,16 +53,20 @@ class TimerDataUtil {
 
         }
         
-        fun getNavHeadersIcons(): List<String> {
+        fun getRandomNavHeaderIcon(): String {
             val images = ArrayList<String>()
-            images.add("one")
-            images.add("two")
-            images.add("three")
-            images.add("four")
-            images.add("five")
-            return images
-
+            images.apply {
+                add("one")
+                add("two")
+                add("three")
+                add("four")
+                add("five")
+            }
+            val randomIndex = (0 until images.size).shuffled().last()
+            return images[randomIndex]
         }
+
+
         fun getDrawableByName(name: String, context: Context): Drawable {
             val resources = context.resources
             val resourceId = resources.getIdentifier(name, "drawable",

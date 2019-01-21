@@ -1,4 +1,4 @@
-package com.disanumber.timer.ui.fragments
+package com.disanumber.timer.ui.settings
 
 import android.os.Bundle
 import com.disanumber.timer.R
