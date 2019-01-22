@@ -25,7 +25,7 @@ class TimerListFragment : MvpAppCompatFragment(), TimerListView, AddTimerDialog.
     private var type: Int = 0
     private val timersData = ArrayList<TimerEntity>()
     private var adapter: TimerAdapter? = null
-
+    private lateinit var prefs: PrefUtil
     @InjectPresenter
     lateinit var presenter: TimerListPresenter
 
@@ -34,7 +34,7 @@ class TimerListFragment : MvpAppCompatFragment(), TimerListView, AddTimerDialog.
         val rootView: View = inflater.inflate(R.layout.fragment_timer_list, container, false)
         type = this.arguments?.getInt(Constants.ARG_FRAGMENT)!!
         recyclerView = rootView.findViewById(R.id.sport_recycler_view) as RecyclerView
-
+        prefs = PrefUtil(context!!)
         presenter.setData(AppRepository.getInstance(context!!.applicationContext))
 
         return rootView
@@ -104,9 +104,9 @@ class TimerListFragment : MvpAppCompatFragment(), TimerListView, AddTimerDialog.
 
 
     private fun checkData() {
-        if (!PrefUtil.getData(context!!)) {
+        if (!prefs.getData()) {
             addData()
-            PrefUtil.setDataAdded(context!!)
+            prefs.setDataAdded()
         }
     }
 

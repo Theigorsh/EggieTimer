@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.ViewGroup
 import com.disanumber.timer.R
 import com.disanumber.timer.ui.timer.TimerActivity
+import com.disanumber.timer.ui.timer.TimerState
 import com.disanumber.timer.util.NotificationUtil
 import com.disanumber.timer.util.PrefUtil
 import com.disanumber.timer.util.TimerDataUtil
@@ -22,16 +23,16 @@ class TimerExpiredActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_timer_expired)
         this.setFinishOnTouchOutside(false)
-
-        exp_timer_title.text = PrefUtil.getPrevTimerTitle(this)
-        exp_timer_image.setImageDrawable(TimerDataUtil.getDrawableByName(PrefUtil.getPrevTimerImage(this), this))
+        val prefs = PrefUtil(this)
+        exp_timer_title.text = prefs.getPrevTimerTitle()
+        exp_timer_image.setImageDrawable(TimerDataUtil.getDrawableByName(prefs.getPrevTimerImage(), this))
         btn_start.setOnClickListener {
-            val minutesRemaining = PrefUtil.getTimerLength(this)
+            val minutesRemaining = prefs.getTimerLength()
             val secondsRemaining = minutesRemaining * 60L
             val wakeUpTime = TimerActivity.setAlarm(this, TimerActivity.nowSeconds, secondsRemaining)
-            PrefUtil.setTimerState(TimerActivity.TimerState.Running, this)
-            PrefUtil.setSecondsRemaining(secondsRemaining, this)
-            NotificationUtil.showTimerRunning(this, wakeUpTime, PrefUtil.getPrevTimerTitle(this))
+            prefs.setTimerState(TimerState.Running)
+            prefs.setSecondsRemaining(secondsRemaining)
+            NotificationUtil.showTimerRunning(this, wakeUpTime, prefs.getPrevTimerTitle())
 
 
             mp!!.stop()

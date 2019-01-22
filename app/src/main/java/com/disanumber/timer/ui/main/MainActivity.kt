@@ -20,6 +20,7 @@ import com.disanumber.timer.R
 import com.disanumber.timer.ui.adapter.ViewPagerAdapter
 import com.disanumber.timer.ui.settings.SettingsActivity
 import com.disanumber.timer.ui.timer.TimerActivity
+import com.disanumber.timer.util.PrefUtil
 import com.disanumber.timer.util.TimerDataUtil
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -34,6 +35,7 @@ class MainActivity : MvpAppCompatActivity(), NavigationView.OnNavigationItemSele
         setTheme(R.style.AppTheme_NoActionBar_Nav)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        presenter.prefs = PrefUtil(this)
         init()
     }
 

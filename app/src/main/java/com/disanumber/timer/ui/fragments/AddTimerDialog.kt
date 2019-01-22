@@ -6,20 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.arellomobile.mvp.MvpAppCompatDialogFragment
 import com.disanumber.timer.R
 import com.disanumber.timer.model.TimerEntity
-import com.disanumber.timer.util.PrefUtil
 import com.disanumber.timer.util.TimerDataUtil
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.InterstitialAd
 import kotlinx.android.synthetic.main.dialog_add_timer.*
 
-class AddTimerDialog : android.support.v4.app.DialogFragment() {
+class AddTimerDialog : MvpAppCompatDialogFragment() {
 
     private var index = 0
     private var images: List<String>? = null
     private var onAddedTimer: OnAddedNewTimer? = null
-    private var interstitialAd: InterstitialAd? = null
 
     interface OnAddedNewTimer {
         fun addTimer(timer: TimerEntity)
@@ -32,11 +29,7 @@ class AddTimerDialog : android.support.v4.app.DialogFragment() {
 
         } catch (e: ClassCastException) {
         }
-        if (!PrefUtil.getVersion(context!!)) {
-            interstitialAd = InterstitialAd(context!!)
-            interstitialAd!!.adUnitId = getString(R.string.banner_fullscreen)
-            interstitialAd!!.loadAd(AdRequest.Builder().build())
-        }
+
 
     }
 
@@ -68,11 +61,7 @@ class AddTimerDialog : android.support.v4.app.DialogFragment() {
                 val length = number_picker_hours.value * 60 + number_picker_minutes.value
                 val timer = TimerEntity(title, images!![index], length, 0, 0, 0, 3)
                 onAddedTimer!!.addTimer(timer)
-                if (interstitialAd != null) {
-                    if (interstitialAd!!.isLoaded) {
-                        interstitialAd!!.show()
-                    }
-                }
+
                 dialog.dismiss()
             }
         }

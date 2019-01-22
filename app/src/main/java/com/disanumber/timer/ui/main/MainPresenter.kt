@@ -9,12 +9,14 @@ import com.disanumber.timer.util.PrefUtil
 @InjectViewState
 class MainPresenter : MvpPresenter<MainView>() {
 
+    lateinit var prefs: PrefUtil
+
     fun initUI() {
         viewState.initUI()
     }
 
     fun checkTimerState(context: Context) {
-        if (PrefUtil.getTimerLength(context) == 0) {
+        if (prefs.getTimerLength() == 0) {
             viewState.showToast(context.getString(R.string.toast_choose_timer))
 
         } else viewState.sendToTimer()

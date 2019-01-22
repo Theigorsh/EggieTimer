@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.disanumber.timer.ui.timer.TimerActivity
+import com.disanumber.timer.ui.timer.TimerState
 import com.disanumber.timer.util.Constants
 import com.disanumber.timer.util.NotificationUtil
 import com.disanumber.timer.util.PrefUtil
@@ -11,35 +12,36 @@ import com.disanumber.timer.util.PrefUtil
 class TimerNotificationActionReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        when(intent.action){
+        val prefs = PrefUtil(context)
+        when (intent.action) {
             Constants.ACTION_STOP -> {
                 TimerActivity.removeAlarm(context)
-                PrefUtil.setTimerState(TimerActivity.TimerState.Stopped, context)
+                prefs.setTimerState(TimerState.Stopped)
                 NotificationUtil.hideTimerNotification(context)
             }
-            Constants.ACTION_PAUSE ->{
-                var secondsRemaining = PrefUtil.getSecondsRemaining(context)
-                val alarmSetTime = PrefUtil.getAlarmSetTime(context)
+            Constants.ACTION_PAUSE -> {
+                var secondsRemaining = prefs.getSecondsRemaining()
+                val alarmSetTime = prefs.getAlarmSetTime()
                 val nowSeconds = TimerActivity.nowSeconds
                 secondsRemaining -= nowSeconds - alarmSetTime//time in which timer running in background
-                PrefUtil.setSecondsRemaining(secondsRemaining,context)
+                prefs.setSecondsRemaining(secondsRemaining)
                 TimerActivity.removeAlarm(context)
-                PrefUtil.setTimerState(TimerActivity.TimerState.Paused, context)
-                NotificationUtil.showTimerPaused(context,PrefUtil.getPrevTimerTitle(context) )
+                prefs.setTimerState(TimerState.Paused)
+                NotificationUtil.showTimerPaused(context, prefs.getPrevTimerTitle())
             }
             Constants.ACTION_RESUME -> {
-                val secondsRemaining = PrefUtil.getSecondsRemaining(context)
+                val secondsRemaining = prefs.getSecondsRemaining()
                 val wakeUpTime = TimerActivity.setAlarm(context, TimerActivity.nowSeconds, secondsRemaining)
-                PrefUtil.setTimerState(TimerActivity.TimerState.Running, context)
-                NotificationUtil.showTimerRunning(context, wakeUpTime, PrefUtil.getPrevTimerTitle(context))
+                prefs.setTimerState(TimerState.Running)
+                NotificationUtil.showTimerRunning(context, wakeUpTime, prefs.getPrevTimerTitle())
             }
-            Constants.ACTION_START ->{
-                val minutesRemaining = PrefUtil.getTimerLength(context)
+            Constants.ACTION_START -> {
+                val minutesRemaining = prefs.getTimerLength()
                 val secondsRemaining = minutesRemaining * 60L
                 val wakeUpTime = TimerActivity.setAlarm(context, TimerActivity.nowSeconds, secondsRemaining)
-                PrefUtil.setTimerState(TimerActivity.TimerState.Running, context)
-                PrefUtil.setSecondsRemaining(secondsRemaining, context)
-                NotificationUtil.showTimerRunning(context, wakeUpTime, PrefUtil.getPrevTimerTitle(context))
+                prefs.setTimerState(TimerState.Running)
+                prefs.setSecondsRemaining(secondsRemaining)
+                NotificationUtil.showTimerRunning(context, wakeUpTime, prefs.getPrevTimerTitle())
             }
         }
     }

@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.timer_item.view.*
 
 class TimerAdapter(private val timers: List<TimerEntity>, private val context: Context, private val presenter: TimerListPresenter) : RecyclerView.Adapter<TimerAdapter.ViewHolder>() {
 
+    val prefs = PrefUtil(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -70,9 +71,9 @@ class TimerAdapter(private val timers: List<TimerEntity>, private val context: C
 
             itemView.setOnClickListener {
                 try {
-                    PrefUtil.setTimerLength(context, length!!, TimerDataUtil.getStringResourceByName(timer!!.name!!, context), timer!!.image!!)
+                    prefs.setTimerLength(length!!, TimerDataUtil.getStringResourceByName(timer!!.name!!, context), timer!!.image!!)
                 } catch (e: Resources.NotFoundException) {
-                    PrefUtil.setTimerLength(context, length!!, timer!!.name!!, timer!!.image!!)
+                    prefs.setTimerLength(length!!, timer!!.name!!, timer!!.image!!)
                 }
                 val intent = Intent(context, TimerActivity::class.java)
                 intent.putExtra("from_list", true)
