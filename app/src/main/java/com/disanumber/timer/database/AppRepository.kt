@@ -38,11 +38,6 @@ class AppRepository private constructor(context: Context) {
         }
     }
 
-    fun addPremiumData() {
-        executor.execute {
-            mDb.timerDao().insertAll(TimerDataUtil.getPremiumTimers())
-        }
-    }
 
     fun deleteTimer(id: Int) {
         executor.execute {

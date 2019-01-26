@@ -1,12 +1,11 @@
-package com.disanumber.timer.ui.adapter
+package com.disanumber.timer.ui.main.timerlist
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import com.disanumber.timer.ui.main.timerlist.TimerListFragment
 
 
-class ViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager) {
+class TimerListPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager) {
 
 
     override fun getItem(position: Int): Fragment {

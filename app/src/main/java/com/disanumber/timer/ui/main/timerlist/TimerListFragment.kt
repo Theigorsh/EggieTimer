@@ -12,7 +12,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.disanumber.timer.R
 import com.disanumber.timer.database.AppRepository
 import com.disanumber.timer.model.TimerEntity
-import com.disanumber.timer.ui.fragments.AddTimerDialog
+import com.disanumber.timer.ui.addtimer.AddTimerDialog
 import com.disanumber.timer.util.Constants
 import com.disanumber.timer.util.PrefUtil
 import kotlinx.android.synthetic.main.fragment_timer_list.*

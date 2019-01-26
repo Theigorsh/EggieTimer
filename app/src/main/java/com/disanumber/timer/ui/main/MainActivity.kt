@@ -17,7 +17,7 @@ import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.bumptech.glide.Glide
 import com.disanumber.timer.R
-import com.disanumber.timer.ui.adapter.ViewPagerAdapter
+import com.disanumber.timer.ui.main.timerlist.TimerListPagerAdapter
 import com.disanumber.timer.ui.settings.SettingsActivity
 import com.disanumber.timer.ui.timer.TimerActivity
 import com.disanumber.timer.util.PrefUtil
@@ -66,7 +66,7 @@ class MainActivity : MvpAppCompatActivity(), NavigationView.OnNavigationItemSele
     private fun setViewPager() {
         val viewPager = findViewById<ViewPager>(R.id.viewpager)
         val tabLayout = findViewById<TabLayout>(R.id.tabs)
-        val adapter = ViewPagerAdapter(supportFragmentManager)
+        val adapter = TimerListPagerAdapter(supportFragmentManager)
         viewPager.adapter = adapter
         viewPager.offscreenPageLimit = 3
         tabLayout.setupWithViewPager(viewPager)

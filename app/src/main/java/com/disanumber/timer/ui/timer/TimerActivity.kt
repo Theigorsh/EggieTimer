@@ -26,8 +26,7 @@ class TimerActivity : MvpAppCompatActivity(), TimerView {
 
     companion object {
 
-        fun setAlarm(context: Context, nowSeconds: Long, secondsRemaining: Long): Long {
-            var prefs: PrefUtil = PrefUtil(context)
+        fun setAlarm(prefs: PrefUtil, context: Context, nowSeconds: Long, secondsRemaining: Long): Long {
             val wakeUpTime = (nowSeconds + secondsRemaining) * 1000//when wakeup time
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager//create alarm manger from context
             val intent = Intent(context, TimerExpiredReceiver::class.java)//intent with broadcast receiver
@@ -37,8 +36,7 @@ class TimerActivity : MvpAppCompatActivity(), TimerView {
             return wakeUpTime
         }
 
-        fun removeAlarm(context: Context) {
-            var prefs: PrefUtil = PrefUtil(context) //remove alarm from background
+        fun removeAlarm(prefs: PrefUtil, context: Context) {
             val intent = Intent(context, TimerExpiredReceiver::class.java)//intent with broadcast receiver
             val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager//create alarm manger from context
@@ -47,17 +45,13 @@ class TimerActivity : MvpAppCompatActivity(), TimerView {
         }
 
         val nowSeconds: Long
-            //get nowseconds from calendar
             get() = Calendar.getInstance().timeInMillis / 1000
     }
 
-
     private var timer: CountDownTimer? = null//object of CountDownTimer
-
 
     @InjectPresenter
     lateinit var presenter: TimerPresenter
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +60,7 @@ class TimerActivity : MvpAppCompatActivity(), TimerView {
         supportActionBar?.title = getString(R.string.timer)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         prefs = PrefUtil(this)
+        presenter.prefs = prefs
         fab_start.setOnClickListener {
             presenter.onStartButtonClicked()
         }
@@ -92,63 +87,30 @@ class TimerActivity : MvpAppCompatActivity(), TimerView {
     override fun onResume() {
         super.onResume()
         presenter.fromList = intent.getBooleanExtra("from_list", false)
-        initTimer()
-        removeAlarm(this)
+        presenter.initTimer()
+        removeAlarm(prefs, this)
         NotificationUtil.hideTimerNotification(this)
     }
 
     override fun onPause() {
         super.onPause()
-        if (presenter.timerState == TimerState.Running) {
-            timer!!.cancel()
-            val wakeUpTime = setAlarm(this, nowSeconds, presenter.secondsRemaining)
-            NotificationUtil.showTimerRunning(this, wakeUpTime, prefs.getPrevTimerTitle())
-        } else if (presenter.timerState == TimerState.Paused) {
-            NotificationUtil.showTimerPaused(this, prefs.getPrevTimerTitle())
-        }
-        prefs.setPreviousTimerLengthSeconds(presenter.timerLengthSeconds)//save current time length
-        prefs.setSecondsRemaining(presenter.secondsRemaining)//save seconds remaining
-        prefs.setTimerState(presenter.timerState)//set timerState
-
+        presenter.onPause()
     }
 
-    private fun initTimer() {
-        presenter.timerState = prefs.getTimerState()//get timerstate
 
-        if (presenter.timerState == TimerState.Stopped) {
-            setNewTimerLength()
-        } else {
-            if (presenter.fromList!!) {
-                createAlertDialog()
-                intent.removeExtra("from_list")
-            }
-            setPreviousTimerLength()
-            txt_view_title.text = prefs.getPrevTimerTitle()
-        }
+    override fun showTimerRunning(secondsRemaining: Long, prevTimerTitle: String) {
+        val wakeUpTime = setAlarm(prefs, this, nowSeconds, secondsRemaining)
+        NotificationUtil.showTimerRunning(this, wakeUpTime, prevTimerTitle)
+    }
 
-        presenter.secondsRemaining = if (presenter.timerState == TimerState.Running || presenter.timerState == TimerState.Paused)
-            prefs.getSecondsRemaining()
-        else
-            presenter.timerLengthSeconds//if stopped seconds remianing will be full timer length seconds
-
-
-        val alarmSetTime = prefs.getAlarmSetTime()
-        if (alarmSetTime > 0) //if alarm is set
-            presenter.secondsRemaining -= nowSeconds - alarmSetTime//get secondsRemaining by minus now seconds and alarm set time
-
-        if (presenter.secondsRemaining <= 0) {
-            onTimerFinished(false)
-        } else if (presenter.timerState == TimerState.Running)
-            startTimer()
-        updateButtons()
-        updateCountDownUi()
-
+    override fun showTimerPaused(prevTimerTitle: String) {
+        NotificationUtil.showTimerPaused(this, prevTimerTitle)
 
     }
 
     override fun onTimerFinished(isSelfExpired: Boolean) {
         presenter.timerState = TimerState.Stopped
-        setNewTimerLength()
+        presenter.setNewTimerLength()
         progress_countdown.progress = 0
 
         //if we stop timer we put in shared preferences full time
@@ -156,7 +118,8 @@ class TimerActivity : MvpAppCompatActivity(), TimerView {
         presenter.secondsRemaining = presenter.timerLengthSeconds
 
         updateButtons()
-        updateCountDownUi()
+        presenter.updateCountDownUi()
+
         if (isSelfExpired) {
             val intentExpired = Intent()
             intentExpired.setClassName(packageName, TimerExpiredActivity::class.java.name)
@@ -168,54 +131,32 @@ class TimerActivity : MvpAppCompatActivity(), TimerView {
 
     override fun startTimer() {
         presenter.timerState = TimerState.Running
-        //init variable timer with object of CountDownTimer, override in this object to fun, when finished and on Tick
-        //when one time tick timer
         timer = object : CountDownTimer(presenter.secondsRemaining * 1000, 1000) {
             override fun onFinish() = onTimerFinished(true)
 
             override fun onTick(millisUntilFinished: Long) {
                 presenter.secondsRemaining = millisUntilFinished / 1000
-                updateCountDownUi()
+                presenter.updateCountDownUi()
             }
         }.start()
     }
 
-    private fun setNewTimerLength() {
-        txt_view_title.text = prefs.getTimerTitle()
-
-        val lengthInMinutes = prefs.getTimerLength()//get timerlength in minutes
-        prefs.setPrevTimerTitle(prefs.getTimerTitle())
-        prefs.setPrevTimerImage(prefs.getTimerImage())
-        presenter.timerLengthSeconds = (lengthInMinutes * 60L)
-        presenter.timerMax = prefs.getTimerLength().toLong() * 60
-        progress_countdown.max = presenter.timerLengthSeconds.toInt()//set max of progress
+    override fun setNewTimerLength(timerTitle: String, progressMax: Int) {
+        txt_view_title.text = timerTitle
+        progress_countdown.max = progressMax
 
 
     }
 
-    private fun setPreviousTimerLength() {
-        presenter.timerLengthSeconds = prefs.getPreviousTimerLengthSeconds()
+    override fun setPreviousTimerLength(prevTimerTitle: String) {
         progress_countdown.max = presenter.timerLengthSeconds.toInt()//set max of progress
+        txt_view_title.text = prevTimerTitle
 
     }
 
-    private fun updateCountDownUi() {
-        val minutesUntilFinished = presenter.secondsRemaining / 60
-        val secondsInMinutesUntilFinished = presenter.secondsRemaining - minutesUntilFinished * 60
-        val secondsStr = secondsInMinutesUntilFinished.toString()
-        if (minutesUntilFinished >= 60) {
-            val hoursUntilfinished = minutesUntilFinished / 60
-            val minutesInHoursUntilFinished = minutesUntilFinished - hoursUntilfinished * 60
-            val minutesStr = minutesInHoursUntilFinished.toString()
-            txt_view_countdown.text = "$hoursUntilfinished:${if (minutesStr.length == 2) minutesStr
-            else "0" + minutesStr}:${if (secondsStr.length == 2) secondsStr
-            else "0" + secondsStr}"
-        } else {
-            txt_view_countdown.text = "$minutesUntilFinished:${if (secondsStr.length == 2) secondsStr
-            else "0" + secondsStr}"
-        }
-
-        progress_countdown.progress = (presenter.timerLengthSeconds - presenter.secondsRemaining).toInt()
+    override fun updateCountDownUi(countDownText: String, progress: Int) {
+        txt_view_countdown.text = countDownText
+        progress_countdown.progress = progress
 
     }
 
@@ -240,21 +181,18 @@ class TimerActivity : MvpAppCompatActivity(), TimerView {
 
     }
 
-    private fun createAlertDialog() {
+    override fun createAlertDialog() {
+        intent.removeExtra("from_list")
         val builder = AlertDialog.Builder(this)
         builder.setMessage(getString(R.string.set_timer))
                 .setPositiveButton(getString(R.string.yes)) { dialog, id ->
-                    if (timer != null) {
-                        timer!!.cancel()
-                    }
+                    cancelTimer()
                     onTimerFinished(false)
                 }
                 .setNegativeButton(getString(R.string.no)) { dialog, id ->
                     dialog.dismiss()
                 }
                 .setIcon(R.mipmap.ic_launcher)
-        // Create the AlertDialog object and return it
-
         val alert: AlertDialog = builder.create()
         alert.show()
 

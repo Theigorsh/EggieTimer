@@ -1,4 +1,4 @@
-package com.disanumber.timer.ui.fragments
+package com.disanumber.timer.ui.addtimer
 
 import android.os.Bundle
 import android.text.TextUtils
@@ -44,7 +44,7 @@ class AddTimerDialog : MvpAppCompatDialogFragment() {
 
     override fun onStart() {
         super.onStart()
-        dialog.window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog.window!!.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
     private fun initUI() {
@@ -61,7 +61,6 @@ class AddTimerDialog : MvpAppCompatDialogFragment() {
                 val length = number_picker_hours.value * 60 + number_picker_minutes.value
                 val timer = TimerEntity(title, images!![index], length, 0, 0, 0, 3)
                 onAddedTimer!!.addTimer(timer)
-
                 dialog.dismiss()
             }
         }

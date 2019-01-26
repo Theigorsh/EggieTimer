@@ -34,22 +34,7 @@ class TimerDataUtil {
             timers.add(TimerEntity("cleaning", "cleaning", 120, 10, 20, 180, 2))
             timers.add(TimerEntity("reading", "reading", 60, 5, 20, 120, 2))
             timers.add(TimerEntity("watching_tv", "tv", 90, 5, 30, 120, 2))
-
             return timers
-
-        }
-
-        fun getPremiumTimers(): List<TimerEntity> {
-            val premiumTimers = ArrayList<TimerEntity>()
-
-            premiumTimers.add(TimerEntity("step_aerobics", "step_aerobic", 20, 1, 10, 40, 0))
-            premiumTimers.add(TimerEntity("stretching", "stretching", 5, 1, 2, 30, 0))
-            premiumTimers.add(TimerEntity("toasts", "toasts", 3, 1, 1, 7, 1))
-            premiumTimers.add(TimerEntity("cereals", "cereals", 20, 5, 5, 40, 1))
-            premiumTimers.add(TimerEntity("inhalation", "inhalation", 15, 1, 5, 30, 2))
-            premiumTimers.add(TimerEntity("face_mask", "mask", 15, 1, 5, 30, 2))
-
-            return premiumTimers
 
         }
         
@@ -86,7 +71,6 @@ class TimerDataUtil {
             images.add("custom_two")
             images.add("custom_three")
             return images
-
         }
 
     }

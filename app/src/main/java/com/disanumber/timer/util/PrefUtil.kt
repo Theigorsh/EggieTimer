@@ -9,7 +9,6 @@ class PrefUtil(context: Context) {
 
     var preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
-
     private val TIMER_DATA_ID = "com.disanumber.timer.timer_data"
 
     fun getData(): Boolean {
@@ -47,13 +46,13 @@ class PrefUtil(context: Context) {
         editor.apply()
     }
 
-    fun getPrevTimerTitle(): String {//all timer length doesn't change running timer if we change minutes
+    fun getPrevTimerTitle(): String {
         return preferences.getString(TIMER_PREV_TITLE_ID, "Choose timer to use")!!
     }
 
     private val TIMER_PREV_IMAGE_ID = "com.disanumber.timer.timer_prev_image"
 
-    fun setPrevTimerImage(image: String) {//all timer length doesn't change running timer if we change minutes
+    fun setPrevTimerImage(image: String) {
         val editor = preferences.edit()
         editor.putString(TIMER_PREV_IMAGE_ID, image)
         editor.apply()
@@ -75,10 +74,10 @@ class PrefUtil(context: Context) {
     private val PREVIOUS_TIMER_LENGTH_SECONDS_ID = "com.disanumber.timer.previous_timer_length"
 
     fun getPreviousTimerLengthSeconds(): Long {
-        return preferences.getLong(PREVIOUS_TIMER_LENGTH_SECONDS_ID, 0)//return previous timer length
+        return preferences.getLong(PREVIOUS_TIMER_LENGTH_SECONDS_ID, 0)
     }
 
-    fun setPreviousTimerLengthSeconds(seconds: Long) {//set timer seconds
+    fun setPreviousTimerLengthSeconds(seconds: Long) {
         val editor = preferences.edit()
         editor.putLong(PREVIOUS_TIMER_LENGTH_SECONDS_ID, seconds)
         editor.apply()
@@ -87,11 +86,11 @@ class PrefUtil(context: Context) {
     private val TIMER_STATE_ID = "com.disanumber.timer.timer_state"
 
     fun getTimerState(): TimerState {
-        val ordinal = preferences.getInt(TIMER_STATE_ID, 0)//enum states by default is INT, 0 - is Stopped Timer
-        return TimerState.values()[ordinal]//index of enum states
+        val ordinal = preferences.getInt(TIMER_STATE_ID, 0)
+        return TimerState.values()[ordinal]
     }
 
-    fun setTimerState(state: TimerState) {//set timer state
+    fun setTimerState(state: TimerState) {
         val editor = preferences.edit()
         val ordinal = state.ordinal
         editor.putInt(TIMER_STATE_ID, ordinal)
@@ -110,7 +109,7 @@ class PrefUtil(context: Context) {
         editor.apply()
     }
 
-    private  val AlARM_SET_TIME_ID = "com.disanumber.timer.background_time"
+    private val AlARM_SET_TIME_ID = "com.disanumber.timer.background_time"
     fun getAlarmSetTime(): Long {
         return preferences.getLong(AlARM_SET_TIME_ID, 0)
     }
